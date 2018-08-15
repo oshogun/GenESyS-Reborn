@@ -16,8 +16,8 @@
 
 class MMC_if {
 public:
-	struct RNG_Parameters{
-		unsigned ling seed;
+	struct RNG_Parameters {
+		unsigned long seed;
 	};
 public: // probability distributions
 	virtual double random() = 0;
