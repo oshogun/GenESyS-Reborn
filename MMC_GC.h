@@ -1,3 +1,9 @@
+/*
+ * MMC_GC Class: Implementation of MMC_IF by
+ * Guilherme Cardoso, 2018.
+ * For the INE5425 course, UFSC
+ */
+
 #pragma once 
 
 #include <cmath>

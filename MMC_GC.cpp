@@ -38,12 +38,26 @@ double MMC_GC::exponential(double mean)
 // TODO
 double MMC_GC::erlang(double mean, int M)
 {
-	return -1;
+    if (mean < 0 || M <= 0) {
+        throw std::runtime_error("Incorrect parameters for MMC_GC::erlang");  
+
+    } else {
+        double P = 1;
+        for(auto i = 0; i < M; i++) {
+            P*= random();
+        }
+        return (double) (mean / M) * (- std::log(P));
+    }
 }
 // TODO
 double MMC_GC::normal(double mean, double stddev)
 {
-	return -1;
+	if (mean <= 0 or stddev <= 0) {
+        throw std::runtime_error("Incorrect parameters for MMC_GC::erlang");
+    } else {
+
+    }
+    return -1;
 }
 // TODO
 double MMC_GC::gamma(double mean, double alpha)
