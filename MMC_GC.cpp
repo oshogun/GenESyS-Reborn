@@ -3,7 +3,8 @@
 
 // TODO: use a proprer RNG algorithm, using rand() as placeholder
 
-MMC_GC::MMC_GC(RNG_Parameters param):rngParameters(param)
+MMC_GC::MMC_GC(RNG_Parameters param):rngParameters(param),
+normalFlag(true), normalResult(0)
 {
 	unsigned long rngSeed = rngParameters.seed;
 	std::srand(rngSeed);
@@ -35,7 +36,7 @@ double MMC_GC::exponential(double mean)
 		throw std::runtime_error("Incorrect parameters for MMC_GC::exponential");
 	}
 }
-// TODO
+// TODO TEST
 double MMC_GC::erlang(double mean, int M)
 {
     if (mean < 0 || M <= 0) {
@@ -49,15 +50,29 @@ double MMC_GC::erlang(double mean, int M)
         return (double) (mean / M) * (- std::log(P));
     }
 }
-// TODO
+// TODO TEST
 double MMC_GC::normal(double mean, double stddev)
 {
 	if (mean <= 0 or stddev <= 0) {
-        throw std::runtime_error("Incorrect parameters for MMC_GC::erlang");
+        throw std::runtime_error("Incorrect parameters for MMC_GC::normal");
     } else {
-
+    	double U1, U2, W, Y, result;
+    	if (normalFlag) {
+    		while (W >= 1) {
+    			U1 = 2 * random() - 1;
+    			U2 = 2 * random() - 1;
+    			W = U1 * U1 + U2 * U2;
+    		}
+    		Y = std::sqrt((- 2 * std::log(W)) / W);
+    		result = mean * U1 * Y * stddev;
+    		normalResult = mean * U2 * Y * stddev;
+    		normalFlag = false;
+    	} else {
+    		result = normalResult;
+    		normalFlag = true;
+    	}
     }
-    return -1;
+    return result;
 }
 // TODO
 double MMC_GC::gamma(double mean, double alpha)
